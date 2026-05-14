@@ -134,7 +134,7 @@ HTML = """<!DOCTYPE html>
                 <label style="cursor:pointer"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"> Select All</label>
             </div>
             <div class="table-wrap">
-            <table><thead><tr><th></th><th>ID</th><th>Email</th><th>Password</th><th>Provider</th><th>Action</th></tr></thead><tbody id="emails-tbody"></tbody></table>
+            <table><thead><tr><th></th><th>ID</th><th>Email</th><th>Provider</th><th>Action</th></tr></thead><tbody id="emails-tbody"></tbody></table>
             </div>
         </div>
         
@@ -222,11 +222,11 @@ HTML = """<!DOCTYPE html>
             var html = '';
             for (var i = 0; i < d.length; i++) {
                 var e = d[i];
-                html += '<tr><td><input type="checkbox" class="email-select" value="' + e.id + '"></td><td>' + e.id + '</td><td>' + e.email + '</td><td>' + e.password + '</td><td>' + e.provider + '</td><td><button class="btn btn-danger" onclick="delEmail(' + e.id + ')">X</button></td></tr>';
+                html += '<tr><td><input type="checkbox" class="email-select" value="' + e.id + '"></td><td>' + e.id + '</td><td>' + e.email + '</td><td>' + e.provider + '</td><td><button class="btn btn-danger" onclick="delEmail(' + e.id + ')">X</button></td></tr>';
             }
             document.getElementById('emails-tbody').innerHTML = html;
         }).catch(function() {
-            document.getElementById('emails-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center;color:#e94560">Failed to load emails</td></tr>';
+            document.getElementById('emails-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:#e94560">Failed to load emails</td></tr>';
         });
     }
     function toggleSelectAll() {
@@ -376,7 +376,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         
         elif path == 'emails':
             emails = storage.get_all_emails()
-            self.json_response([{'id': e.id, 'email': e.email, 'password': e.password, 'provider': e.provider} for e in emails])
+            self.json_response([{'id': e.id, 'email': e.email, 'provider': e.provider} for e in emails])
         
         elif path == 'phones':
             phones = storage.get_all_phones()
@@ -422,7 +422,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         code = codes[0] if codes else 'N/A'
                         all_messages.append({
                             'email': email_entry.email,
-                            'password': email_entry.password,
                             'code': code,
                             'subject': msg.subject,
                             'from_addr': msg.from_addr,
