@@ -81,7 +81,7 @@ class EmailGenApp:
         
         try:
             c = int(input("\nCountry [1]: ") or "1")
-            country = countries[max(0, min(c-1, len(countries)))]
+            country = countries[max(0, min(c - 1, len(countries) - 1))]
         except: country = "USA"
         
         phones = self.phone_provider.get_phone_numbers(country)
